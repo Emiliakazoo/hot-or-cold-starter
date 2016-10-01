@@ -45,7 +45,7 @@ $("form").on("submit", function(event){
 
 
 	/*---------------- Game Play -----------------------*/
-	function playGame(userInput) {
+	function playGame() {
 		userInput = $("#userGuess").val();
 		if (isNaN(userInput)){
 			alert("That's not a number!  Give me a number!!");
@@ -98,10 +98,10 @@ $("form").on("submit", function(event){
 				$("#feedback").text("Too high but cooler");
 			}
 			else if (difference >= 41 && difference <= 50){
-				$("#feedback").text("Too high and a little less cold");
+				$("#feedback").text("Too high, cool");
 			}
 			else if (difference >= 31 && difference <= 40){
-				$("#feedback").text("Too high, but getting closer");
+				$("#feedback").text("Too high, but warm");
 			}
 			else if (difference >= 21 && difference <= 30){
 				$("#feedback").text("Too high but warmer");
@@ -110,9 +110,9 @@ $("form").on("submit", function(event){
 				$("#feedback").text("Too high, getting hot!");
 			}
 			else if (difference >= 5 && difference <= 10){
-				$("#feedback").text("HIGH AND HOT!! Come down!");
+				$("#feedback").text("HOT!! A little lower!");
 			}
-			else if (difference >= 1 && difference <= 4){
+			else if (difference >= 2 && difference <= 4){
 				$("#feedback").text("SOOOO HOT, come down!");
 			}
 			else {
@@ -142,16 +142,16 @@ $("form").on("submit", function(event){
 				$("#feedback").text("Too low, getting warm");
 			}
 			else if (difference >= 21 && difference <= 30){
-				$("#feedback").text("warmer, come up...");
+				$("#feedback").text("warmer, a little higher...");
 			}
 			else if (difference >= 11 && difference <= 20){
-				$("#feedback").text("WARMER, COME UP!");
+				$("#feedback").text("WARMER, come up!");
 			}
 			else if (difference >= 5 && difference <= 10){
-				$("#feedback").text("HOT, COME UP SOME MORE");
+				$("#feedback").text("HOT, a little higher!");
 			}
-			else if (difference >= 1 && difference <= 4){
-				$("#feedback").text("SOOOO HOT LIKE CRAY, come up!");
+			else if (difference >= 2 && difference <= 4){
+				$("#feedback").text("CRAY CRAY HOT, a little higher!");
 			}
 			else {
 				$("#feedback").text("ON FIRE!!!! OUCH!!");
