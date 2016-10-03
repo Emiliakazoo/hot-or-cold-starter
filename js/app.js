@@ -4,12 +4,19 @@ $(document).ready(function(){
 	var guessThisNum = Math.ceil(Math.random() * 100);
 	var playerGuess = "";
 	var numberOfTries = 0;
-
+	var tooHighOrLow = "";
+	var isHigher = true;
+	
+	
 	/*-----------------Change number to guess for new game. This will be called in the new game function ------------*/
 	function numToGuess(){
 		guessThisNum = Math.ceil(Math.random() * 100);
-		console.log(guessThisNum);
 	}
+	/*------------------End Guess number -----------------------------------------------------------------------------*/
+
+
+
+
 	
 	/*--- Display information modal box ---*/
   	$(".what").click(function(){
@@ -22,16 +29,132 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(500);
   	});
 
-/*--------------------Start a new game.  Make sure the page doesn't reload. ------------*/
-$("a.new").on("click", function(){
-	newGame();
-});
-//Play the new game. No page reload!!
-$("form").on("submit", function(event){
-	event.preventDefault();
-	playGame();
-});
+
+
+	/*-------------------------Determine if player's number is higher than computer's -----------------*/
+
+	function isGreaterOrLessThan(a, b) {
+		if(a > b) {
+			return isHigher = true;
+		}
+		else {
+			return isHigher = false;
+		}
+
+	}
+	/*------------------------End number comparison ----------------------------------------------------*/
+
+
+
+
+	/*---------------- Game Play -----------------------*/
+
+
+	function playGame() {
+		userInput = $("#userGuess").val();
+		if (isNaN(userInput)){
+			alert("That's not a number!  Give me a number!!");
+			$("#userGuess").val("").focus();
+			return;
+		}
+
+		else if (userInput > 100){
+			alert("That's too much.  Pick a number between 1 and 100.");
+			$("#userGuess").val("").focus();
+			return;
+		}
+
+		else if (userInput === 0) {
+			alert("That's too low.  Pick a number between 1 and 100.  Did you not read the instructions??");
+		}
+		
+		else {
+			numberOfTries = numberOfTries + 1;
+			playerGuess = +userInput;
+			$("#feedback").text(playerGuess);
+			$("#count").text(numberOfTries);
+
+
+			/*-----------------------------Writing out the win or guess to the page ----------------*/
+			if(playerGuess === guessThisNum){
+				$("#guessList").append("<li>You guessed " + playerGuess + "! You win!</li>");
+				$("#feedback").text("You win!");
+				$("#guessButton").prop("disabled", true);
+				return;
+			}
+			else {
+				$("#guessList").append("<li>" + playerGuess + "</li>");
+			}
+			/*-----------------------------End write out of guess or win ---------------------------*/
+
+
+		var difference = Math.abs(guessThisNum - playerGuess);
+
+		isGreaterOrLessThan(playerGuess, guessThisNum);
+
+
+		if(isHigher === true) {
+			tooHighOrLow = "Too high! ";
+		}
+		else{
+			tooHighOrLow = "Too low! ";
+		}
+
+
+
+		if (difference >= 91 && difference <= 100){
+			$("#feedback").text(tooHighOrLow + "Super-cold");
+		}
+		else if (difference >= 81 && difference <= 90){
+			$("#feedback").text(tooHighOrLow + "Really cold");
+		}
+		else if (difference >= 71 && difference <= 80){
+			$("#feedback").text(tooHighOrLow + "Cold");
+		}
+		else if (difference >= 61 && difference <= 70){
+			$("#feedback").text(tooHighOrLow + "A little cooler");
+		}
+		else if (difference >= 51 && difference <= 60){
+			$("#feedback").text(tooHighOrLow +"Cooler");
+		}
+		else if (difference >= 41 && difference <= 50){
+			$("#feedback").text(tooHighOrLow +"Cool");
+		}
+		else if (difference >= 31 && difference <= 40){
+			$("#feedback").text(tooHighOrLow + "Warm");
+		}
+		else if (difference >= 21 && difference <= 30){
+			$("#feedback").text(tooHighOrLow + "Warmer");
+		}
+		else if (difference >= 11 && difference <= 20){
+			$("#feedback").text(tooHighOrLow + "Getting hot!");
+		}
+		else if (difference >= 5 && difference <= 10){
+			$("#feedback").text(tooHighOrLow + "HOT!");
+		}
+		else if (difference >= 2 && difference <= 4){
+			$("#feedback").text(tooHighOrLow + "SOOOO HOT!!!");
+		}
+		else {
+			$("#feedback").text(tooHighOrLow + "LITERALLY ON FIRE");
+		}
+
+		$("#userGuess").val("").focus();
+		console.log(playerGuess);
+		return;
+
+		}
+
+	}
+
+	/*-----------------End game play---------------------*/
+
+
+
+
+
 	/*---------------- Start a new Game -----------------*/
+
 	function newGame() {
 		numToGuess();
 		playerGuess = "";
@@ -43,128 +166,27 @@ $("form").on("submit", function(event){
 		$("#guessButton").prop("disabled", false);
 	}
 
+	/*---------------end start new game ----------------*/
 
-	/*---------------- Game Play -----------------------*/
-	function playGame() {
-		userInput = $("#userGuess").val();
-		if (isNaN(userInput)){
-			alert("That's not a number!  Give me a number!!");
-			$("#userGuess").val("").focus();
-			return;
-		}
-		else if (userInput > 100){
-			alert("That's too much.  Pick a number between 1 and 100.");
-			$("#userGuess").val("").focus();
-			return;
-		}
-		else {
-		numberOfTries = numberOfTries + 1;
-		playerGuess = +userInput;
-		$("#feedback").text(playerGuess);
-		$("#count").text(numberOfTries);
 
-		if(playerGuess === guessThisNum){
-			$("#guessList").append("<li>You guessed " + playerGuess + "! You win!</li>");
-		}
-		else {
-			$("#guessList").append("<li>" + playerGuess + "</li>");
-		}
 
-		var difference = Math.abs(guessThisNum - playerGuess);
-		console.log(difference);
 
-		if(playerGuess == guessThisNum) {
-			$("#feedback").text("You win!");
-			$("#guessButton").prop("disabled", true);
-			return;
-		}
-		/*----------------this feels less than optimal! ------------------------*/
-		
-		if(playerGuess > guessThisNum){
 
-			if (difference >= 91 && difference <= 100){
-				$("#feedback").text("Too high, super-cold");
-			}
-			else if (difference >= 81 && difference <= 90){
-				$("#feedback").text("Too high, really cold");
-			}
-			else if (difference >= 71 && difference <= 80){
-				$("#feedback").text("Too high, cold");
-			}
-			else if (difference >= 61 && difference <= 70){
-				$("#feedback").text("Too high and a little cooler");
-			}
-			else if (difference >= 51 && difference <= 60){
-				$("#feedback").text("Too high but cooler");
-			}
-			else if (difference >= 41 && difference <= 50){
-				$("#feedback").text("Too high, cool");
-			}
-			else if (difference >= 31 && difference <= 40){
-				$("#feedback").text("Too high, but warm");
-			}
-			else if (difference >= 21 && difference <= 30){
-				$("#feedback").text("Too high but warmer");
-			}
-			else if (difference >= 11 && difference <= 20){
-				$("#feedback").text("Too high, getting hot!");
-			}
-			else if (difference >= 5 && difference <= 10){
-				$("#feedback").text("HOT!! A little lower!");
-			}
-			else if (difference >= 2 && difference <= 4){
-				$("#feedback").text("SOOOO HOT, come down!");
-			}
-			else {
-				$("#feedback").text("LITERALLY ON FIRE");
-			}
-		}
-		else {
-			if (difference >= 91 && difference <= 100){
-				$("#feedback").text("Too low, super cold");
-			}
-			else if (difference >= 81 && difference <= 90){
-				$("#feedback").text("Too low,really cold");
-			}
-			else if (difference >= 71 && difference <= 80){
-				$("#feedback").text("Too low and cold");
-			}
-			else if (difference >= 61 && difference <= 70){
-				$("#feedback").text("Too low and a little less cold");
-			}
-			else if (difference >= 51 && difference <= 60){
-				$("#feedback").text("Too low but cooler");
-			}
-			else if (difference >= 41 && difference <= 50){
-				$("#feedback").text("Too low, cooler");
-			}
-			else if (difference >= 31 && difference <= 40){
-				$("#feedback").text("Too low, getting warm");
-			}
-			else if (difference >= 21 && difference <= 30){
-				$("#feedback").text("warmer, a little higher...");
-			}
-			else if (difference >= 11 && difference <= 20){
-				$("#feedback").text("WARMER, come up!");
-			}
-			else if (difference >= 5 && difference <= 10){
-				$("#feedback").text("HOT, a little higher!");
-			}
-			else if (difference >= 2 && difference <= 4){
-				$("#feedback").text("CRAY CRAY HOT, a little higher!");
-			}
-			else {
-				$("#feedback").text("ON FIRE!!!! OUCH!!");
-			}
-		}
 
-		$("#userGuess").val("").focus();
-		console.log(playerGuess);
-		return;
+	/*--------------------Start a new game.  Make sure the page doesn't reload. ------------*/
+	$("a.new").on("click", function(){
+		newGame();
+	});
+	//Play the new game. No page reload!!
+	$("form").on("submit", function(event){
+		event.preventDefault();
+		playGame();
+	});
 
-		}
+	/*--------------------End start new game. ----------------------------------------------*/
 
-	}
+
+
 });
 
 
