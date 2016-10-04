@@ -64,8 +64,9 @@ $(document).ready(function(){
 			return;
 		}
 
-		else if (userInput === 0) {
+		else if (userInput == 0) {
 			alert("That's too low.  Pick a number between 1 and 100.  Did you not read the instructions??");
+			return;
 		}
 		
 		else {
@@ -86,6 +87,7 @@ $(document).ready(function(){
 				$("#guessList").append("<li>" + playerGuess + "</li>");
 			}
 			/*-----------------------------End write out of guess or win ---------------------------*/
+
 
 
 		var difference = Math.abs(guessThisNum - playerGuess);
